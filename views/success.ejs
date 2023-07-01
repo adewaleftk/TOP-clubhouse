@@ -1,0 +1,31 @@
+<% if (user) { %>
+  <!-- User is logged in -->
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Success</title>
+  </head>
+  <body>
+    <h1>House Of Devs</h1>
+    <% messages.forEach(message => { %>
+      <div>
+        <p>Username: <%= message.username %></p>
+        <p>Message: <%= message.message %></p>
+        <% if (message.createdAt) { %> <!-- Add this check -->
+          <p>Date: <%= message.createdAt.toLocaleString() %></p>
+        <% } %> <!-- End of check -->
+        <% if (user.isAdmin) { %> <!-- Add this check for admin privileges -->
+          <form action="/messages/<%= message.id %>/delete" method="POST">
+            <button type="submit">Delete</button>
+          </form>
+        <% } %> <!-- End of admin check -->
+      </div>
+      <hr>
+    <% }); %>
+  </body>
+  </html>
+<% } else { %>
+  <!-- User is not logged in -->
+  <p>Please <a href="/login">Login</a> to view fellow Devs</p>
+<% } %>
